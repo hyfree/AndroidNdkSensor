@@ -3,6 +3,7 @@
 
 #include <android/sensor.h>
 #include <vector>
+
 using namespace std;
 
 /**
@@ -22,24 +23,27 @@ using namespace std;
  * manager->unregister();
  */
 
-class NdkSensorEventListener{
+class NdkSensorEventListener {
 public:
-    virtual void onSensorChanged(ASensorEvent *event){};
+    virtual void onSensorChanged(ASensorEvent *event) {};
 };
 
-class NdkSensorManager{
+class NdkSensorManager {
 public:
     NdkSensorManager();
-    inline void setListener(NdkSensorEventListener *listener){_listener = listener;}
-    void registerSensor(const vector<int>& sensorIDs, int32_t usec);
+
+    inline void setListener(NdkSensorEventListener *listener) { _listener = listener; }
+
+    void registerSensor(const vector<int> &sensorIDs, int32_t usec);
+
     void unregister();
 
     ASensorEventQueue *_sensorEventQueue{};
-    NdkSensorEventListener* _listener = nullptr;
+    NdkSensorEventListener *_listener = nullptr;
 private:
     ASensorManager *_sensorManager;
     ALooper *_ndkSensorLooper;
-    vector<pair<int, ASensor*>> enable_sensor;
+    vector<pair<int, ASensor *>> enable_sensor;//传感器数组
 };
 
 #endif
