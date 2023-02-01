@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var GYROSCOPE_Count:Int=0
     private var MAGNETIC_FIELD_Count:Int=0
     //private val Max_Count=1_000_000;
-    private val Max_Count=1000;
+    private val Max_Count=8_000_000;
     private val path="/storage/emulated/0/1/2023/";
     val   pathSet=HashSet<String>();
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,12 +73,15 @@ class MainActivity : AppCompatActivity() {
                                 writeFile("加速度传感器","z",zBytes!!);
                                 ACCELEROMETER_Count++;
                                 message=(ACCELEROMETER_Count.toFloat()/Max_Count).toString()
+                                text_ACCELEROMETER.text =
+                                    "type:加速度传感器\n ts: ${event.timestamp}\n, " +
+                                            "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n"+
+                                            "已经采集：${ACCELEROMETER_Count}\n"+
+                                            "剩余采集：${Max_Count-ACCELEROMETER_Count}\n"
                             }else{
-                                message="采集完成";
+                                text_ACCELEROMETER.text ="加速度传感器数据--采集完成";
                             }
-                            text_ACCELEROMETER.text =
-                                "type:加速度传感器\n ts: ${event.timestamp}\n, " +
-                                        "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n";
+
                         }
 
                         Sensor.TYPE_GYROSCOPE -> {
@@ -89,11 +92,14 @@ class MainActivity : AppCompatActivity() {
                                 writeFile("陀螺仪","z",zBytes!!);
                                 GYROSCOPE_Count++;
                                 message=(GYROSCOPE_Count.toFloat()/Max_Count).toString()
+                                text_GYROSCOPE.text ="type: 陀螺仪\n ts: ${event.timestamp}\n, " +
+                                        "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n"+
+                                        "已经采集：${GYROSCOPE_Count}\n"+
+                                        "剩余采集：${Max_Count-GYROSCOPE_Count}\n"
                             }else{
-                                message="采集完成";
+                                text_GYROSCOPE.text ="陀螺仪数据--采集完成";
                             }
-                            text_GYROSCOPE.text ="type: 陀螺仪\n ts: ${event.timestamp}\n, " +
-                                    "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n"
+
 
                         }
                         Sensor.TYPE_MAGNETIC_FIELD -> {
@@ -104,12 +110,17 @@ class MainActivity : AppCompatActivity() {
                                 writeFile("磁场传感器","z",zBytes!!);
                                 MAGNETIC_FIELD_Count++;
                                 message=(MAGNETIC_FIELD_Count.toFloat()/Max_Count).toString()
+
+                                text_MAGNETIC_FIELD.text =
+                                    "type: 磁场传感器\n ts: ${event.timestamp}\n, " +
+                                            "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n"+
+                                            "已经采集：${MAGNETIC_FIELD_Count}\n"+
+                                            "剩余采集：${Max_Count-MAGNETIC_FIELD_Count}"
                             }else{
-                                message="采集完成";
+                                message="磁场数据--采集完成\n";
+                                text_MAGNETIC_FIELD.text =message;
                             }
-                            text_MAGNETIC_FIELD.text =
-                            "type: 磁场传感器\n ts: ${event.timestamp}\n, " +
-                                    "x=${x.toString()},\ny=${y.toString()}\nz=${z.toString()}\n${message}\n"
+
                         }
                     }
 
